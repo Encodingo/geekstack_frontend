@@ -1,0 +1,150 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { BiTrash, BiEdit } from "react-icons/bi";
+import styled from "styled-components";
+import { deletetrainingRoute } from "../utils/APIRoutes";
+
+import axios from "axios";
+
+import student_icon from "../assets/images/student-icon.png";
+import { toast } from "react-toastify";
+// import web1 from "../assets/images/web 1.png";
+// import student_icon from "../assets/images/student-icon.png";
+import pdf from "../assets/images/pdf/details.pdf";
+
+const CourseCard = ({
+  imgurl,
+  category,
+  subcategory,
+  title,
+  userId,
+  price,
+  Admin,
+  id,
+  setEdit,
+}) => {
+  // const handleApply = () => {
+  //   // console.log("Applied");
+  //   if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY) != null) {
+  //     window.location.replace("https://pages.razorpay.com/geekstacks-training");
+  //   } else {
+  //     toast.error("Please Login First", {
+  //       position: toast.POSITION.TOP_RIGHT,
+  //     });
+  //   }
+  // };
+
+  const [isDeleted, setIsDeleted] = useState(false);
+
+  const handledelete = async () => {
+    // console.log("delete");
+    try {
+      const { data } = await axios.post(deletetrainingRoute, { id });
+      if (data.status) {
+        // console.log(data.status);
+        setIsDeleted(true);
+      }
+    } catch (error) {
+      console.error("Error delete trainings:", error);
+    }
+  };
+
+  const handleEdit = async () => {
+    setEdit({ editOpen: true, editId: id });
+  };
+
+  const handleApply = async () => {
+    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY) != null) {
+      try {
+        console.log("training id is" + id);
+        console.log("user id is " + userId);
+      } catch (error) {
+        console.error("Error delete trainings:", error);
+      }
+    } else {
+      toast.error("Please Login First", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
+
+  return (
+    <>
+      {isDeleted === false && (
+        <div className="course-card">
+          <div className="course-banner">
+            <img src={imgurl} alt="course banner" />
+
+            <div className="course-tag-box">
+              <Link to="#" className="badge-tag orange">
+                {category}
+              </Link>
+              <Link to="#" className="badge-tag blue">
+                {subcategory}
+              </Link>
+            </div>
+          </div>
+
+          <div className="course-content">
+            <h3 className="card-title">
+              <Link to="#">{title}</Link>
+            </h3>
+
+            <div className="wrapper border-bottom">
+              <div className="enrolled">
+                {/* <div className="icon-user">
+              <img src={student_icon} alt="user icon" />
+            </div>
+
+            <p>600k</p> */}
+                <div className="course-price">₹{price}</div>
+              </div>
+
+              <div className="rating">
+                <ion-icon name="star"></ion-icon>
+                <p>5.0 (2k)</p>
+              </div>
+            </div>
+
+            <div className="wrapper">
+              {/* <div className="course-price">₹{price}</div> */}
+              <div className="course-view">
+                <a href={pdf} target="_blank">
+                  View Details
+                </a>
+              </div>
+              <div className="course-view">
+                <Link onClick={handleApply}>Apply</Link>
+              </div>
+            </div>
+          </div>
+          {Admin === true && (
+            <CardOptions>
+              <span>
+                <BiEdit onClick={handleEdit} />{" "}
+              </span>
+              <span>
+                <BiTrash onClick={handledelete} />
+              </span>
+            </CardOptions>
+          )}
+        </div>
+      )}
+    </>
+  );
+};
+
+export default CourseCard;
+
+const CardOptions = styled.div`
+  font-size: 30px;
+  display: flex;
+  justify-content: flex-end;
+
+  span {
+    cursor: pointer;
+    :hover {
+      transform: scale(1.1);
+    }
+  }
+`;
