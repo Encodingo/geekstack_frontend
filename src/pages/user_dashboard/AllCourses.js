@@ -21,7 +21,7 @@ const AllCourses = () => {
         document.getElementById('allTrainings').classList.add('active');
 
         // Fetching All Trainings 
-        axios.get('http://localhost:5000/api/training/alltrainings')
+        axios.get(`${process.env.REACT_APP_HOST_URL}/api/training/alltrainings`)
             .then(res => { setTrainings(res.data) })
             .catch(err => { console.log(err); })
 
