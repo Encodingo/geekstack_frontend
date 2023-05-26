@@ -58,6 +58,37 @@ const CourseCard = ({
       try {
         console.log("training id is" + id);
         console.log("user id is " + userId);
+        const {data:{order} }= await axios.post("http://localhost:5000/api/checkout",{
+            price
+        });
+        console.log(price,title);
+        const {data:{key}}=await axios.post("http://localhost:5000/api/getkey");
+        
+        var options = {
+          key:key,
+           // Enter the Key ID generated from the Dashboard
+          amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          currency: "INR",
+          name: "Vidyayan Eduventure Pvt Ltd",
+          description: "Test Transaction",
+          image: "https://media.licdn.com/dms/image/C4D0BAQFvqR2yqXYzsQ/company-logo_200_200/0/1680119587249?e=1693440000&v=beta&t=fiQMknfmCrszgJ9Z062TFdDes2iTU2g2-Fi-ArhVSss",
+          order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          callback_url: "http://localhost:5000/api/paymentverification",
+          prefill: {
+              "name":'Gaurav Kumar',
+              "email": "gaurav.kumar@example.com",
+              "contact": "9000090000"
+          },
+          notes: {
+              "address": "Razorpay Corporate Office"
+          },
+          theme: {
+              "color": "#121212"
+          }
+      };
+      const razor = new window.Razorpay(options);
+       razor.open();
+    
       } catch (error) {
         console.error("Error delete trainings:", error);
       }
@@ -114,7 +145,7 @@ const CourseCard = ({
                 </a>
               </div>
               <div className="course-view">
-                <Link onClick={handleApply}>Apply</Link>
+                <Link onClick={()=>handleApply}>Apply</Link>
               </div>
             </div>
           </div>
