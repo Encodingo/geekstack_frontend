@@ -1857,3 +1857,19 @@ input[type="submit"] {
   border-radius: inherit;
   margin-top: 5px;
 } */
+
+
+.boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.college .boxes .box {
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  width: 356px;
+  margin: 10px;
+  box-shadow: 3px 3px 3px #47bef7;
+}

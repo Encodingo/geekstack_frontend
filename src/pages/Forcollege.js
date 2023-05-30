@@ -74,7 +74,7 @@ const Forcollege = () => {
                 // const response = await college(FormValues);
                 const { response } = await axios.post(college, FormValues);
                 toast.success("Form Submitted successfully");
-                setFormData({ ...FormValues, name: "", email: "", phone: "", designation: "", organization: "", message: "" });
+                setFormData({ name: "", email: "", phone: "", designation: "", organization: "", message: "" });
                 navigate("/forcollege");
 
             }
@@ -93,29 +93,29 @@ const Forcollege = () => {
                     <form onSubmit={(event) => handleSubmit(event)}>
                         <div className="form-item">
                             <label htmlFor="Name">Name</label>
-                            <input type="text" name="name" id="name" placeholder='Name' onChange={handleChange} required />
+                            <input type="text" name="name" id="name" placeholder='Name' value={FormValues.name} onChange={handleChange} required />
                         </div>
                         <div className="form-item">
                             <label htmlFor="email">Email</label>
-                            <input type="email" name="email" id="email" placeholder='Email' onChange={handleChange} required />
+                            <input type="email" name="email" id="email" placeholder='Email' value={FormValues.email} onChange={handleChange} required />
                         </div>
                         <div className="form-item">
                             <label htmlFor="phone">Phone</label>
-                            <input type="text" name="phone" id="phone" placeholder='Phone' required onChange={handleChange} />
+                            <input type="text" name="phone" id="phone" placeholder='Phone' value={FormValues.phone} required onChange={handleChange} />
                         </div>
                         <div className="form-item">
                             <label htmlFor="designation">Designation</label>
-                            <input type="text" name="designation" id="designation" placeholder='Designation' onChange={handleChange} required />
+                            <input type="text" name="designation" id="designation" placeholder='Designation' value={FormValues.designation} onChange={handleChange} required />
                         </div>
                         <div className="form-item">
                             <label htmlFor="organization">Organization</label>
-                            <input type="text" name="organization" id="organization" placeholder='Organization' onChange={handleChange} required />
+                            <input type="text" name="organization" id="organization" placeholder='Organization' value={FormValues.organization} onChange={handleChange} required />
                         </div>
 
 
                         <div className="form-item">
                             <label htmlFor="message">Message</label>
-                            <textarea type="text" rows='5' name="message" id="message" placeholder='Message' onChange={handleChange} required />
+                            <textarea type="text" rows='5' name="message" id="message" placeholder='Message' value={FormValues.message} onChange={handleChange} required />
                         </div>
 
                         {/* <input type="submit" onClick={handleSubmit} value="Submit" /> */}

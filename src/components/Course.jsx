@@ -1,85 +1,61 @@
-import React, { useState, useEffect } from "react";
-// import {Link} from "react-router-dom"
-// Images
-
-// import web1 from "../assets/images/web 1.png";
-// import python1 from "../assets/images/python 1.png";
-// import ccpp1 from "../assets/images/ccpp 1.png";
-// import java1 from "../assets/images/java 1.png";
-// import mren1 from "../assets/images/mren 1.png";
-// import app1 from "../assets/images/app 1.png";
-// import student_icon from "../assets/images/student-icon.png";
-// import Card from "./Card"
-
-import { alltrainingsRoute } from "../utils/APIRoutes";
-import CourseCard from "./CourseCard";
-import axios from "axios";
+import React, { useState, useEffect } from 'react'
+import { alltrainingsRoute } from '../utils/APIRoutes'
+import CourseCard from "./CourseCard"
+import axios from 'axios'
+import EditTraining from "./adminComponents/EditTraining"
 
 const Course = () => {
   const [trainings, setTrainings] = useState([]);
+  const [Admin, setadmin] = useState(false);
+  const [{ editOpen, editId }, setEdit] = useState({ editOpen: false, editId: null });
+  const [userid, setuserId] = useState(null);
 
+  useEffect(() => {
+    const storedUsername = localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY);
+    if (storedUsername) {
+
+      const user = JSON.parse(storedUsername);
+      setuserId(user._id);
+      if (user.isAdmin === true) {
+        setadmin(true);
+        console.log(user._id);
+      }
+    }
+  }, []);
   useEffect(() => {
     const gettraining = async () => {
       try {
         const response = await axios.get(alltrainingsRoute);
         setTrainings(response.data);
+
       } catch (error) {
         console.error("Error retrieving trainings:", error);
       }
-    };
+    }
     gettraining();
-  }, []);
-};
+  }, [editOpen]);
 
-export default Course;
+  return (
+    <>
+      {editOpen && <EditTraining editId={editId} setEdit={setEdit} trainings={trainings} />}
+      {editOpen === false &&
+        <section className="course" id="course">
 
-// import React from "react";
-// import Card from "./Card";
-// // Images
+          <p className="section-subtitle">GeekStacks Training Program</p>
 
-// import web1 from "../assets/images/web 1.png";
-// import python1 from "../assets/images/python 1.png";
-// import ccpp1 from "../assets/images/ccpp 1.png";
-// import java1 from "../assets/images/java 1.png";
-// import mren1 from "../assets/images/mren 1.png";
-// import app1 from "../assets/images/app 1.png";
-// import robot from "../assets/images/robot.jpg";
-// import drone from "../assets/images/drone.jpg";
-// import iot from "../assets/images/iot.jpg";
+          <div className="course-grid">
+            {trainings.map((item, index) => {
+              return <CourseCard key={index} userId={userid} id={item._id} Admin={Admin} imgurl={item.image} setEdit={setEdit} category={item.category} subcategory={item.subcategory} price={item.price} title={item.trainingName} />
+            })}
 
-// const Course = () => {
-//   const cards = [
-//     { id: 1, heading: 'Complete Master Class For Web Development.', price: '1999', image: web1 },
-//     { id: 2, heading: 'Getting Started With Python For Beginner', price: '1999', image: python1 },
-//     { id: 3, heading: 'Getting Started With C/C++ For Beginner', price: '1999', image: ccpp1 },
-//     { id: 4, heading: 'Learn Java With The Industry Expert', price: '1999', image: java1 },
-//     { id: 5, heading: 'Full Stack Web Development With MERN', price: '1999', image: mren1 },
-//     { id: 6, heading: 'Android App Development with Scratch', price: '1999', image: app1 },
-//     { id: 7, heading: 'Learn Robotics Technologies', price: '1999', image: robot },
-//     { id: 8, heading: 'Learn Drone Technologies & Innovations', price: '1999', image: drone },
-//     { id: 9, heading: 'Learn Internet Of Things', price: '1999', image: iot },
-//   ];
+          </div>
 
-//   return (
-//     <section className="course" id="course">
-//       <p className="section-subtitle">GeekStacks Training Program</p>
 
-//       <h2 className="section-title"></h2>
 
-//       <div className="course-grid">
-//         {cards.map((card) => {
-//           return (
-//             <Card
-//               key={card.id}
-//               heading={card.heading}
-//               price={card.price}
-//               image={card.image}
-//             />
-//           );
-//         })}
-//       </div>
-//     </section>
-//   );
-// };
+        </section>
+      }
+    </>
+  )
+}
 
-// export default Course;
+export default Course

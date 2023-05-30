@@ -53,6 +53,7 @@ const RobotTrainings = () => {
         axios.get(`${process.env.REACT_APP_HOST_URL}/api/training/alltrainings`)
             .then(res => { setTrainings(res.data) })
             .catch(err => { console.log(err); })
+
     });
 
     return (

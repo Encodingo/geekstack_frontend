@@ -19,6 +19,7 @@ import Robotics from './pages/Robotics';
 import RobotTrainings from './pages/user_dashboard/allTrainings/RobotTrainings';
 import Iottraining from './pages/user_dashboard/allTrainings/IotTraining';
 import Forcollege from './pages/Forcollege';
+import Paymentsuccess from './pages/paymentsuccess';
 
 //admin dashboard 
 import Dashboard from "./pages/Dashboard"
@@ -40,6 +41,7 @@ import Coding_tr from "./pages/user_dashboard/myTrainings/CodingTr";
 import Robotics_tr from "./pages/user_dashboard/myTrainings/RobotTrainings";
 import Iot_tr from "./pages/user_dashboard/myTrainings/IotTraining";
 
+
 function App() {
   return (
     <div className="App">
@@ -55,6 +57,7 @@ function App() {
           <Route path='/robotics' element={<Robotics />} />
           <Route path='/iot' element={<Iot />} />
           <Route path='/forcollege' element={<Forcollege />} />
+          <Route path='/paymentsucces' element={<Paymentsuccess/>}/>
 
           {/* Routes for User Dashboard  */}
           <Route path='/user' element={<AllCourses />} />
